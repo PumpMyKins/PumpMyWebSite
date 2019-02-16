@@ -75,7 +75,7 @@ class NewsController extends Controller
 
     public function delete($id)
 
-        $news = News::find($id)
+        $news = News::find($id);
         if($news == null) {
             return abort(404);
         }
