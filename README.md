@@ -1,2 +1,0 @@
-# PumpMyWebSite
-Laravel - PumpMyKins - Website
