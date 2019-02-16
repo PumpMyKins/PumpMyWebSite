@@ -76,13 +76,13 @@ class NewsController extends Controller
         return view('basicPage.news.show', compact('news'));
     }
 
-    public function delete($id){
+    public function delete($id) {
 
         $news = News::find($id);
         if($news == null) {
             return abort(404);
         }
-        $news->forcedelete();
+        $news->forceDelete();
 
         return view('basicPage.news');
     }
