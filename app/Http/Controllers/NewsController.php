@@ -69,7 +69,7 @@ class NewsController extends Controller
 
     public function show($id){
 
-        $news = News::published()->findOrFail($id);
+        $news = News::published()->find($id);
         if($news == null) {
             $news = News::unpublished()->findOrFail($id);
         }
