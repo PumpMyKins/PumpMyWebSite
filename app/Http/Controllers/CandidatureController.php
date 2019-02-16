@@ -34,7 +34,7 @@ class CandidatureController extends Controller
 		$data = $request->only('type', 'prenom', 'age', 'horaire', 'motivation', 'anciennete', 'presentation', 'sanction');
 		$data['slug'] = str_slug($data['prenom'], Str::random());
 		$data['user_id'] = Auth::user()->id;
-		$data['name'] = Auth::user()->name;
+		$data['pseudo'] = Auth::user()->name;
 		$candidature = Candidature::create($data);
 		return redirect()->route('candidature_list');
 	}
