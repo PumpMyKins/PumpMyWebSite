@@ -9,7 +9,7 @@ Nouveautées
 @section('content')
 <div class="row">
     <div class="col">
-        @if(Gate::check('can_manage_news') || Gate::check('propose_news')) 
+        @if(Gate::check('can_manage_news') || Gate::check('can_propose_news')) 
         <div class="card">
             <div class="card-header">Navigation News</div>
             <div class="card-body">
