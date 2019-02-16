@@ -57,7 +57,7 @@ Route::group(['prefix' => 'news'], function(){
 		->middleware('auth','can:can_manage_news');
 	Route::get('/delete', 'NewsController@delete')
 		->name('delete_news')
-		->middleware('auth','can:can_manage_news')
+		->middleware('auth','can:can_manage_news');
 });
 
 /* ROUTE FOR BasicPage */
