@@ -23,8 +23,9 @@ Liste staff
                 </thead>
                 <tbody>
                     @foreach($users as $user)
+                        
                     <tr>
-                        <th>@if($user->profile !== null) <img src="{{asset('images/profile/$user->profile["image"])}}" alt="profile_img" class="profile-img">@endif @if($user->profile !== null)<a class="no-style" href="{{ route('show_profile',['id' => $user->id]) }}">@endif{{ $user->name }}@if($user->profile !== null)</a>@endif</th>
+                        <th>@if($user->profile !== null) <img src="{{asset('images/profile/')}}" alt="profile_img" class="profile-img"> <a class="no-style" href="{{ route('show_profile',['id' => $user->id]) }}">@endif {{ $user->name }} @if($user->profile !== null)</a>@endif</th> 
                         <td>@if(count($user->roles) > 0) {{ $user->roles[0]->name }} @else <strong>Erreur sur le joueur</strong> @endif</td>
                         @can('can_promote')
                         <td>
