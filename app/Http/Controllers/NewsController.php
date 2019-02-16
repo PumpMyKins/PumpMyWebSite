@@ -43,7 +43,7 @@ class NewsController extends Controller
             $newsQuery = $newsQuery->where('user_id', Auth::user()->id);
         }
         $news = $newsQuery->paginate();
-        return view('basicPage.news.drafts', compact('news'));
+        return view('basicPage.news.index', compact('news'));
     }
 
     public function edit(News $news){
@@ -72,5 +72,15 @@ class NewsController extends Controller
         $news = News::published()->findOrFail($id);
         return view('basicPage.news.show', compact('news'));
     }
+
+    public function delete($id)
+
+        $news = News::find($id)
+        if($news == null) {
+            return abort(404);
+        }
+        $news->forcedelete();
+
+        return view('basicPage.news');
 
 }
