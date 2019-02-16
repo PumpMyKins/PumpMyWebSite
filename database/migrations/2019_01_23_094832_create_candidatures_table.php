@@ -16,7 +16,7 @@ class CreateCandidaturesTable extends Migration
         Schema::create('candidature', function (Blueprint $table) {
             $table->increments('id');
             $table->string('type');
-            $table->string('pseudo');
+            $table->string('name');
             $table->string('prenom');
             $table->Integer('age');
             $table->string('horaire');
@@ -27,8 +27,8 @@ class CreateCandidaturesTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('state')->default("En attente");
             $table->boolean('status')->default(false);
-            $table->string('upvote');
-            $table->string('downvote');
+            $table->string('upvote')->nullable();
+            $table->string('downvote')->nullable();
             $table->string('slug')->unique();
             $table->timestamps();
         });

@@ -33,8 +33,7 @@ class CandidatureStore extends FormRequest
             'anciennete' => 'required|string|max:200',
             'presentation' => 'required|string|between:100,500',
             'sanction' => 'required|string|max:200',
-            'pseudo' => 'required',
-            
+
         ];
     }
 }
