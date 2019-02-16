@@ -70,6 +70,9 @@ class NewsController extends Controller
     public function show($id){
 
         $news = News::published()->findOrFail($id);
+        if($news == null) {
+            $news = News::unpublished()->findOrFail($id);
+        }
         return view('basicPage.news.show', compact('news'));
     }
 
