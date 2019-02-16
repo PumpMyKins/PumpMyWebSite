@@ -84,6 +84,6 @@ class NewsController extends Controller
         }
         $news->forceDelete();
 
-        return view('basicPage.news.index');
+        return redirect()->route('list_news');
     }
 }
