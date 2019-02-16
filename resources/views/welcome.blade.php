@@ -52,9 +52,11 @@
                         <li class="nav-item">
                             <a class="nav-link" href="https://pumpmykins.buycraft.net/">Boutique</a>
                         </li>
+                        <!--
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/legals') }}">Mentions Légales</a>
                         </li>
+                        -->
                     </ul>
                 </div>
             </div>

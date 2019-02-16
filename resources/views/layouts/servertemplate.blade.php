@@ -31,7 +31,7 @@
 					<li class="nav-item"><a class="nav-link" href="{{ url('/news') }}">Nouveautée(s)</a></li>
 					<li class="nav-item"><a class="nav-link" href="https://github.com/orgs/PumpMyKins/">Github</a></li>
 					<li class="nav-item"><a class="nav-link" href="https://pumpmykins.buycraft.net/">Boutique</a></li>
-					<li class="nav-item"><a class="nav-link" href="{{url('/legals')}}">Mentions Légales</a></li>
+					<!--<li class="nav-item"><a class="nav-link" href="{{url('/legals')}}">Mentions Légales</a></li>-->
 				</ul>
 				<div class="ml-auto">
 					@if (Route::has('login'))
