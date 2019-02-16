@@ -37,7 +37,9 @@ Show
             <div class="card-body">
                 <div class="nav-news">
                     {!! $news->content !!}
-
+                    @can('can_manage_news')
+                    <a href="{{ route('delete_news', ['id' => $new->id]) }}" class="btn btn-danger btn-sm" role="button">Supprimer</a>
+                    @endcan
                     <a class="btn btn-info" href="{{ route('list_news') }}">Retour en arrière !</a>
                 </div>
             </div>

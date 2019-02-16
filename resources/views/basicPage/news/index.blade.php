@@ -55,7 +55,6 @@ Nouveautées
                             @can('can_manage_news', $new)
                             <p>
                                 <a href="{{ route('update_news', ['id' => $new->id]) }}" class="btn btn-warning btn-sm" role="button">Edit</a>
-                                <a href="{{ route('delete_news', ['id' => $new->id]) }}" class="btn btn-danger btn-sm" role="button">Supprimer</a>
                             </p>
                             @endcan
                 </div>
