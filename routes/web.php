@@ -55,7 +55,7 @@ Route::group(['prefix' => 'news'], function(){
 	Route::get('/draft', 'NewsController@draft')
 		->name('list_draft')
 		->middleware('auth','can:can_manage_news');
-	Route::get('/delete', 'NewsController@delete')
+	Route::get('/delete/{news}', 'NewsController@delete')
 		->name('delete_news')
 		->middleware('auth','can:can_manage_news');
 });
