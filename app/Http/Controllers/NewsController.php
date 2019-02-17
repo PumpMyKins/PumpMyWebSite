@@ -32,7 +32,7 @@ class NewsController extends Controller
     $data['slug'] = str_slug($data['title']);
     $data['user_id'] = Auth::user()->id;
     $news = News::create($data);
-    return redirect()->route('edit_news', ['id' => $news->id]);
+    return redirect()->route('list_news');
 
     }
     public function draft() {
