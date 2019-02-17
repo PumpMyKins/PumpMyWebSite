@@ -13,7 +13,8 @@ class ServerController extends Controller
 {
     public function index()
     {
-        $servers = Server::open()->paginate(10);
+        $servers = Server::open()->paginate(20);
+        $future_server = Server::notYetOpen()->paginate(20);
         return view('basicPage.server.index', compact('servers', 'future_server'));
     }
 

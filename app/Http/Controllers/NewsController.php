@@ -64,7 +64,7 @@ class NewsController extends Controller
 
         $news->display = true;
         $news->save();
-        return back();
+         return view('basicPage.news.show', compact('news'));
     }
 
     public function show($id){
