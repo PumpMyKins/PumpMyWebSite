@@ -1,5 +1,5 @@
-var maxLengthMotivationAncienneteSanction = 200;
-var maxLengthPresentation = 500;
+var maxLengthMotivationAncienneteSanction = 600;
+var maxLengthPresentation = 1000;
 $('#motivation').keyup(function() {
 
 	var length = $(this).val().length;

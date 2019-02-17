@@ -19,7 +19,7 @@ class CreateCandidaturesTable extends Migration
             $table->string('name');
             $table->string('prenom');
             $table->Integer('age');
-            $table->string('horaire');
+            $table->text('horaire');
             $table->text('motivation');
             $table->text('anciennete');
             $table->text('presentation');

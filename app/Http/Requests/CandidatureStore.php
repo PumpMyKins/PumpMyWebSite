@@ -28,11 +28,11 @@ class CandidatureStore extends FormRequest
             'type' => 'required|string|max:20',
             'prenom' => 'required|string|max:30',
             'age' => 'required|integer',
-            'horaire' => 'required|string|max:255',
-            'motivation' => 'required|string|max:210',
-            'anciennete' => 'required|string|max:210',
-            'presentation' => 'required|string|max:510',
-            'sanction' => 'required|string|max:200',
+            'horaire' => 'required|string|max:800',
+            'motivation' => 'required|string|max:800',
+            'anciennete' => 'required|string|max:800',
+            'presentation' => 'required|string|max:1000',
+            'sanction' => 'required|string|max:600',
 
         ];
     }
