@@ -62,6 +62,6 @@
             </div>
         </div>
     </div>
-    <script type="text/javascript" src="{{ asset('js/welcomefont.js') }}"></script>
+    <script type="text/javascript" src="{{ secure_asset('js/welcomefont.js') }}"></script>
 </body>
 </html>
