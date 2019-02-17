@@ -29,9 +29,9 @@ class CandidatureStore extends FormRequest
             'prenom' => 'required|string|max:30',
             'age' => 'required|integer',
             'horaire' => 'required|string|max:255',
-            'motivation' => 'required|string|max:200',
-            'anciennete' => 'required|string|max:200',
-            'presentation' => 'required|string|between:100,500',
+            'motivation' => 'required|string|max:210',
+            'anciennete' => 'required|string|max:210',
+            'presentation' => 'required|string|max:510',
             'sanction' => 'required|string|max:200',
 
         ];

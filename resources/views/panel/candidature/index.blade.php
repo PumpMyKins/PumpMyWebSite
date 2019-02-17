@@ -28,10 +28,10 @@ Panel
                             @foreach($candidature as $candid)
                                 <tr>
                                     <th><a href="{{ route('show_candidature', ['id' => $candid->id]) }}" class="no-style">{{ $candid->name }}</a></th>
-                                    <td>{{ $candid->type }}</td>
-                                    <td>{{ $candid->created_at }}</td>
-                                    <td>{{ $candid->state }}</td>
-                                    <td><a tabindex="0" type="" data-toggle="popover" title="<center><h5 class='votelist'>Liste des votes</h5></center>" data-html="true" data-content="
+                                    <td class="@if(strpos($candid->state, 'Refusé') == true) table-danger @elseif(strpos($candid->state, 'Accepté') == true) table-success @else table-primary @endif">{{ $candid->type }}</td>
+                                    <td class="@if(strpos($candid->state, 'Refusé') == true) table-danger @elseif(strpos($candid->state, 'Accepté') == true) table-success @else table-primary @endif">{{ $candid->created_at }}</td>
+                                    <td class="@if(strpos($candid->state, 'Refusé') == true) table-danger @elseif(strpos($candid->state, 'Accepté') == true) table-success @else table-primary @endif">{{ $candid->state }}</td>
+                                    <td class="@if(strpos($candid->state, 'Refusé') == true) table-danger @elseif(strpos($candid->state, 'Accepté') == true) table-success @else table-primary @endif"><a tabindex="0" type="" data-toggle="popover" title="<center><h5 class='votelist'>Liste des votes</h5></center>" data-html="true" data-content="
                                         <div class='row'>
                                             <div class='col'>
                                                 <h6>Pour</h6>
