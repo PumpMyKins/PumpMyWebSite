@@ -26,7 +26,7 @@ Panel
                         </thead>
                         <tbody>
                             @foreach($candidature as $candid)
-                                <tr class="@if(strpos($candid->state, 'Refusé') !== false) table-danger @elseif(strpos($candid->state, 'Accepté') !== false) table-success @else table-primary @endif">
+                                <tr class="@if(strpos($candid->state, 'Refusé') !== false) table-danger @elseif(strpos($candid->state, 'Accepté') !== false) table-success @endif">
                                     <th><a href="{{ route('show_candidature', ['id' => $candid->id]) }}" class="no-style">{{ $candid->name }}</a></th>
                                     <td>{{ $candid->type }}</td>
                                     <td>{{ $candid->created_at }}</td>
