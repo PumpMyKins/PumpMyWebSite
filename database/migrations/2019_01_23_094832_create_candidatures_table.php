@@ -23,7 +23,7 @@ class CreateCandidaturesTable extends Migration
             $table->text('motivation');
             $table->text('anciennete');
             $table->text('presentation');
-            $table->string('sanction');
+            $table->text('sanction');
             $table->unsignedInteger('user_id');
             $table->string('state')->default("En attente");
             $table->boolean('status')->default(false);
