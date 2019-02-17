@@ -25,4 +25,8 @@ class HomeController extends Controller
     {
         return view('panel.index');
     }
+    public function staffrules() 
+    {
+        return view('panel.staff');
+    }
 }

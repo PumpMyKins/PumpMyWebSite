@@ -21,7 +21,9 @@ Route::get('logout', '\App\Http\Controllers\Auth\LoginController@logout');
 Route::get('/panel', 'HomeController@index')
 	->name('panel')
 	->middleware('auth');
-
+Route::get('/panel/staff', 'HomeController@staffrules')
+	->name('staff_chartre')
+	->middleware('auth','can:staff');
 /*
 |--------------------------------------------------------------------------
 | Personal web Routes
