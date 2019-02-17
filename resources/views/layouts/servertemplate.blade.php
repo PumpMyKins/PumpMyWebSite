@@ -13,6 +13,7 @@
 		<link rel="stylesheet" href="{{ asset('css/badges.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/checkbox.css') }}">
 		<link rel="stylesheet" href="{{ asset('css/basic.css') }}">
+		<link rel="stylesheet" href="{{ asset('css/img-settings.css) }}">
 	</head>
 	<body>
 		<canvas id="canvas"></canvas>
