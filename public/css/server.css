@@ -40,3 +40,13 @@ input:checked {
     }
   }
 }
+
+.img-card img {
+               
+    height: 180px;
+    object-fit: cover;
+    transition: all .25s ease;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}

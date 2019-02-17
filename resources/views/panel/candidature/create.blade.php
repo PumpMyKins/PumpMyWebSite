@@ -64,7 +64,7 @@ Candidature - Panel
                 <div class="form-group {{ $errors->has('motivation') ? ' has-error' : '' }}">
                     <label for="motivation">Vos motivations ?</label>
                     <textarea type="text" name="motivation" id="motivation" class="form-control" required row="5"></textarea>
-                    <comment>Il vous reste <span id="charsmotivation"> 200</span> caractères</comment>
+                    <comment>Il vous reste <span id="charsmotivation"> 600</span> caractères</comment>
                             @if ($errors->has('motivation'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('motivation') }}</strong>
@@ -74,7 +74,7 @@ Candidature - Panel
                 <div class="form-group {{ $errors->has('anciennete') ? ' has-error' : '' }}">
                     <label for="anciennete">Votre ancienneté ?</label>
                     <textarea type="text" name="anciennete" id="anciennete" class="form-control" required row="5"></textarea>
-                    <comment>Il vous reste <span id="charsanciennete"> 200</span> caractères</comment>
+                    <comment>Il vous reste <span id="charsanciennete"> 600</span> caractères</comment>
                             @if ($errors->has('anciennete'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('anciennete') }}</strong>
@@ -84,7 +84,7 @@ Candidature - Panel
                 <div class="form-group {{ $errors->has('presentation') ? ' has-error' : '' }}">
                     <label for="presentation">Presentez vous un peu ?</label>
                     <textarea type="text" name="presentation" id="presentation" class="form-control" required row="5"></textarea>
-                    <comment>Il vous reste <span id="charspresentation"> 500</span> caractères</comment>
+                    <comment>Il vous reste <span id="charspresentation"> 1000</span> caractères</comment>
                             @if ($errors->has('presentation'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('presentation') }}</strong>
@@ -94,7 +94,7 @@ Candidature - Panel
                 <div class="form-group {{ $errors->has('sanction') ? ' has-error' : '' }}">
                     <label for="sanction">Avez vous été sanctionné dans le passé ?</label>
                     <textarea type="text" name="sanction" id="sanction" class="form-control" required row="5"></textarea>
-                    <comment>Il vous reste <span id="charssanction"> 200</span> caractères</comment>
+                    <comment>Il vous reste <span id="charssanction"> 600</span> caractères</comment>
                             @if ($errors->has('sanction'))
                                 <span class="help-block">
                                     <strong>{{ $errors->first('sanction') }}</strong>

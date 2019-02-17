@@ -22,7 +22,7 @@ Nos Serveurs
 				@if(!$server->close AND $server->open_date < \Carbon\Carbon::now())
 				<hr>
 				<h5>Pour le rejoindre : </h5>
-				<h6>{{ $server->ip }}</h6>
+				<strong><h6>{{ $server->ip }}</h6></strong>
 				@endif
 			</div>
 		</div>
