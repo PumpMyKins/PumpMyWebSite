@@ -99,6 +99,9 @@
 						<div class="nav-item">
 							<a class="nav-link" href="{{ url('/panel/candidature/old/')}}">Candidatures archivées</a>
 						</div>
+						<div class="nav-item">
+							<a class="nav-link" href="{{ url('/panel/staff') }}">Charte du staff !</a>
+						</div>
 						<!--<div class="nav-item">
 							<a class="nav-link" href="">Problèmes en cours</a>
 						</div>
