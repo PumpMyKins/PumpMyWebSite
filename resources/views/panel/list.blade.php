@@ -9,7 +9,7 @@ Liste staff
 @section('content')
 <div class="col-6">
     <div class="card">
-        <div class="card-header">Liste des staffs</div>
+        <div class="card-header">Liste des @if(Route::current()->getName() == 'list_staff') staffs @else joueurs @endif</div>
         <div class="card-body">
             <table class="table table-bordered table-hover sortable">
                 <thead>
@@ -58,6 +58,7 @@ Liste staff
                 @endforeach
             </tbody>
         </table>
+        {{ $users->links() }}
     </div>
 </div>
 </div>
