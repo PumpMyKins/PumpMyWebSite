@@ -29,7 +29,7 @@ class PanelController extends Controller
     			$q->orWhere('slug', 'modo');
 				$q->orWhere('slug', 'admin');
     			$q->orWhere('slug', 'resp');
-    		})->get();
+    		})->paginate();
 
     	return view('panel.list', compact('users'));
     }
