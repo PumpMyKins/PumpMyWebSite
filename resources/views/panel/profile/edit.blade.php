@@ -84,7 +84,7 @@ Profile - Panel
                 <button type="submit" class="btn btn-primary">
                     Valider les modification
                 </button>
-                <a href="{{ route('show_profile', ['id' => Auth::user()->id ])}}" class="btn btn-warning">Retour</a>
+                <a href="{{ URL::previous() }}" class="btn btn-warning">Retour</a>
                 {{ Form::close() }}
         </div>
     </div>

@@ -52,6 +52,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="https://pumpmykins.buycraft.net/">Boutique</a>
                         </li>
+                        <li class="nav-item"><a class="nav-link" href="https://discord.gg/jQ55xHW">Discord</a></li>
                         <!--
                         <li class="nav-item">
                             <a class="nav-link" href="{{ url('/legals') }}">Mentions Légales</a>
