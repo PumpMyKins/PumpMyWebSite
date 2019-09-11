@@ -1,0 +1,21 @@
+.card {
+
+	background-color: #ffffff9e;
+}
+.card > .input {
+
+	background-color:#ffffffa3;
+}
+.card-perso {
+
+	border-radius: 0;
+}
+.card-header {
+
+	background-color: rgba(0, 0, 0, 0.1);
+}
+a.text-dark-custom:hover, a.text-dark-custom:focus {
+
+	color: #ff9b00 !important;
+	text-decoration: none;
+}
