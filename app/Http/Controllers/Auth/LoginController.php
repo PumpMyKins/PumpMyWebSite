@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\DiscordAccount;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
+use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
-use App\User;
-use App\DiscordAccount;
 
 class LoginController extends Controller
 {
@@ -66,16 +66,17 @@ class LoginController extends Controller
             return redirect('login');
         }
         $account = DiscordAccount::whereDiscordUserId($user_info->getId())->first();
-        if (!$account) {
+        if (! $account) {
             $account = new DiscordAccount([
                 'discord_user_id' => $user_info->getId(),
             ]);
         } else {
             Auth::login($account->user, true);
+
             return redirect($this->redirectTo);
         }
         $user = User::whereEmail($user_info->getEmail())->first();
-        if (!$user) {
+        if (! $user) {
             $user = User::create([
                 'email' => $user_info->getEmail(),
                 'name' => $user_info->getName(),
@@ -84,6 +85,7 @@ class LoginController extends Controller
         $account->user()->associate($user);
         $account->save();
         Auth::login($account->user, true);
+
         return redirect($this->redirectTo);
     }
 }
