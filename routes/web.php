@@ -19,4 +19,7 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('login/discord', 'Auth\LoginController@redirectToDiscord')->name('login_discord');
+Route::get('login/discord/callback', 'Auth\LoginController@callbackDiscord');
+
+Route::get('/panel', 'HomeController@index')->name('panel');

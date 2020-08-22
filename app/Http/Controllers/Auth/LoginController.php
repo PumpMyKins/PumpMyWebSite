@@ -5,6 +5,10 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
+use App\User;
+use App\DiscordAccount;
 
 class LoginController extends Controller
 {
@@ -36,5 +40,50 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    /**
+     * Redirect the user to the Discord authentication page.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function redirectToDiscord()
+    {
+        return Socialite::driver('discord')->redirect();
+    }
+
+    /**
+     * Obtain the user information from Discord.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function callbackDiscord()
+    {
+        try {
+            $user_info = Socialite::driver('discord')->user();
+        } catch (\Exception $e) {
+            // TODO send flash message
+            return redirect('login');
+        }
+        $account = DiscordAccount::whereDiscordUserId($user_info->getId())->first();
+        if (!$account) {
+            $account = new DiscordAccount([
+                'discord_user_id' => $user_info->getId(),
+            ]);
+        } else {
+            Auth::login($account->user, true);
+            return redirect($this->redirectTo);
+        }
+        $user = User::whereEmail($user_info->getEmail())->first();
+        if (!$user) {
+            $user = User::create([
+                'email' => $user_info->getEmail(),
+                'name' => $user_info->getName(),
+            ]);
+        }
+        $account->user()->associate($user);
+        $account->save();
+        Auth::login($account->user, true);
+        return redirect($this->redirectTo);
     }
 }
