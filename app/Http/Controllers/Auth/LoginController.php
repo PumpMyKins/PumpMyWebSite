@@ -81,6 +81,7 @@ class LoginController extends Controller
                 'email' => $user_info->getEmail(),
                 'name' => $user_info->getName(),
             ]);
+            $user->assignRole('joueur');
         }
         $account->user()->associate($user);
         $account->save();
