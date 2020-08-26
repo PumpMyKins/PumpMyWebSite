@@ -74,7 +74,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
             ->middleware('api')
-            ->namespace($this->namespace)
+            ->namespace($this->namespace."\Api")
             ->group(base_path('routes/api.php'));
     }
 
@@ -89,7 +89,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::middleware('web')
             ->prefix('panel')
-            ->namespace($this->namespace)//."/Panel")
+            ->namespace($this->namespace."\Panel")
             ->group(base_path('routes/panel.php'));
     }
 }
