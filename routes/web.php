@@ -21,5 +21,3 @@ Auth::routes();
 
 Route::get('login/discord', 'Auth\LoginController@redirectToDiscord')->name('login_discord');
 Route::get('login/discord/callback', 'Auth\LoginController@callbackDiscord');
-
-Route::get('/panel', 'HomeController@index')->name('panel');
