@@ -62,8 +62,14 @@ class LoginController extends Controller
         try {
             $user_info = Socialite::driver('discord')->user();
         } catch (\Exception $e) {
-            // TODO send flash message
-            return redirect('login');
+            return redirect('login')->with('error', $e->getMessage());
+        }
+        if (Auth::check()) {
+            $account = new DiscordAccount([
+                'discord_user_id' => $user_info->getId(),
+            ]);
+            $account->user()->associate(Auth::user());
+            return redirect($this->redirectTo)->with('success', 'Discord account linked to your account');
         }
         $account = DiscordAccount::whereDiscordUserId($user_info->getId())->first();
         if (! $account) {
@@ -87,6 +93,6 @@ class LoginController extends Controller
         $account->save();
         Auth::login($account->user, true);
 
-        return redirect($this->redirectTo);
+        return redirect($this->redirectTo)->with('success', 'Logged in successfully');
     }
 }
