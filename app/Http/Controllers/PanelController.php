@@ -12,7 +12,6 @@ class PanelController extends Controller
     public function __construct()
     {
         $this->middleware('auth')->except(['dashboard', 'servers', 'infos']);
-        $this->middleware(['role:responsable','permission:manage user'])->only(['accounts', 'getAccount']);
     }
 
     /**
