@@ -69,6 +69,7 @@ class LoginController extends Controller
                 'discord_user_id' => $user_info->getId(),
             ]);
             $account->user()->associate(Auth::user());
+
             return redirect($this->redirectTo)->with('success', 'Discord account linked to your account');
         }
         $account = DiscordAccount::whereDiscordUserId($user_info->getId())->first();
