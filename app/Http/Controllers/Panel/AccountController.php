@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Panel;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\Controller;
 
 class AccountController extends Controller
 {
@@ -16,7 +16,7 @@ class AccountController extends Controller
      */
     public function __construct()
     {
-    	$this->middleware('auth');
+        $this->middleware('auth');
         $this->middleware(['role:responsable', 'permission:manage user'])->only(['showAll', 'getAccount', 'updateAccount']);
     }
 
@@ -28,6 +28,7 @@ class AccountController extends Controller
     public function show()
     {
         $user = Auth::user();
+
         return view('panel.account', compact('user'));
     }
 
@@ -46,7 +47,7 @@ class AccountController extends Controller
         $user = Auth::user();
         $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
         $url = $request->avatar->storeAs('avatars', $avatarName);
-        
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->avatar = 'avatars/'.$avatarName;
@@ -62,7 +63,8 @@ class AccountController extends Controller
      */
     public function showAll()
     {
-    	$users = User::all();
+        $users = User::all();
+
         return view('panel.accounts', compact('users'));
     }
 
@@ -73,7 +75,8 @@ class AccountController extends Controller
      */
     public function getAccount($id)
     {
-    	$user = User::findOrFail($id);
+        $user = User::findOrFail($id);
+
         return view('panel.account', compact('user'));
     }
 
@@ -84,7 +87,7 @@ class AccountController extends Controller
      */
     public function updateAccount(Request $request)
     {
-    	$validatedData = $request->validate([
+        $validatedData = $request->validate([
             'name' => ['required', 'string', 'max:255', 'unique:users'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'avatar' => ['nullable', 'file', 'dimensions:max_width:400,max_height:400', 'mimes:jpeg,png,gif,jpg,svg', 'max:2048'],
@@ -92,7 +95,7 @@ class AccountController extends Controller
         $user = Auth::user();
         $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
         $url = $request->avatar->storeAs('avatars', $avatarName);
-        
+
         $user->name = $request->name;
         $user->email = $request->email;
         $user->avatar = 'avatars/'.$avatarName;
