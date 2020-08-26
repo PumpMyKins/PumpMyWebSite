@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class DefaultPermission extends Seeder
 {
@@ -11,8 +13,8 @@ class DefaultPermission extends Seeder
      */
     public function run()
     {
-        $fondateur Role::create(['name' => 'fondateur']);
-        $responsable Role::create(['name' => 'responsable']);
+        $fondateur = Role::create(['name' => 'fondateur']);
+        $responsable = Role::create(['name' => 'responsable']);
         $administrateur = Role::create(['name' => 'administrateur']);
         $moderateur = Role::create(['name' => 'moderateur']);
         $joueur = Role::create(['name' => 'joueur']);
