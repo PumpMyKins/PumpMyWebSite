@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use App\User;
 
 class AccountController extends Controller
 {
@@ -16,7 +15,7 @@ class AccountController extends Controller
      */
     public function __construct()
     {
-        $this->middleware(['role:responsable','permission:manage user'])->only(['showAll', 'getAccount', 'updateAccount']);
+        $this->middleware(['role:responsable', 'permission:manage user'])->only(['showAll', 'getAccount', 'updateAccount']);
     }
 
     /**
@@ -26,7 +25,8 @@ class AccountController extends Controller
      */
     public function show()
     {
-    	$user = Auth::user();
+        $user = Auth::user();
+
         return view('panel.account', compact('user'));
     }
 
@@ -37,15 +37,16 @@ class AccountController extends Controller
      */
     public function update(Request $request)
     {
-    	$validatedData = $request->validate([
-		    'avatar' => ['nullable', 'file', 'dimensions:max_width:400,max_height:400', 'mimes:jpeg,png,gif,jpg,svg', 'max:2048'],
-		]);
-		$user = Auth::user();
-		$avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
-		$url = $request->avatar->storeAs('avatars', $avatarName);
-		$user->avatar = "avatars/".$avatarName;
-		$user->save();
-		return back()->with('success', __("Avatar saved successfully"));
+        $validatedData = $request->validate([
+            'avatar' => ['nullable', 'file', 'dimensions:max_width:400,max_height:400', 'mimes:jpeg,png,gif,jpg,svg', 'max:2048'],
+        ]);
+        $user = Auth::user();
+        $avatarName = $user->id.'_avatar'.time().'.'.request()->avatar->getClientOriginalExtension();
+        $url = $request->avatar->storeAs('avatars', $avatarName);
+        $user->avatar = 'avatars/'.$avatarName;
+        $user->save();
+
+        return back()->with('success', __('Avatar saved successfully'));
     }
 
     /**
