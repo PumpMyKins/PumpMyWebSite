@@ -29,6 +29,5 @@ class User extends JsonResource
      */
     public function toArrayDiscord($request)
     {
-        
     }
 }

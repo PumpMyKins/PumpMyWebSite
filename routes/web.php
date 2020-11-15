@@ -1,9 +1,8 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-// App Controllers
 use App\Http\Controllers\SocialiteLoginController;
+// App Controllers
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,8 +15,8 @@ use App\Http\Controllers\SocialiteLoginController;
 |
 */
 
-Route::get("login/discord", [SocialiteLoginController::class, 'redirectToProvider']);
-Route::get("login/discord/callback", [SocialiteLoginController::class, 'handleProviderCallback']);
+Route::get('login/discord', [SocialiteLoginController::class, 'redirectToProvider']);
+Route::get('login/discord/callback', [SocialiteLoginController::class, 'handleProviderCallback']);
 
 Route::get('/', function () {
     return view('welcome');
