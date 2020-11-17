@@ -50,34 +50,21 @@ class PMK_Permissions
         switch ($role) {
             case 'Administration':
                 return [
-                    'user.discord',
                     'user.get',
-                    'user.getany',
+                    'user.get.discord',
+                    'user.admin.get',
+                    'user.admin.get.discord',
+                    'user.admin.create',
+                    'user.admin.update',
+                    'user.admin.delete',
                 ];
             case 'Moderation':
             case 'Joueur':
             default:
                 return [
-                    'user.discord',
                     'user.get',
+                    'user.get.discord',
                 ];
-        }
-    }
-
-    public static function usersApiPermissions($role = 'Joueur')
-    {
-        switch ($role) {
-            case 'Administration':
-                return [
-                    'users.get',
-                    'users.create',
-                    'users.update',
-                    'users.delete',
-                ];
-            case 'Moderation':
-            case 'Joueur':
-            default:
-                return [];
         }
     }
 
@@ -87,16 +74,21 @@ class PMK_Permissions
             case 'Administration':
                 return [
                     'news.get',
-                    'news.getany',
                     'news.create',
                     'news.update',
                     'news.delete',
+                    'news.admin.get',
+                    'news.admin.update',
+                    'news.admin.delete',
                 ];
             case 'Moderation':
             case 'Joueur':
             default:
                 return [
                     'news.get',
+                    'news.create',
+                    'news.update',
+                    'news.delete',
                 ];
         }
     }

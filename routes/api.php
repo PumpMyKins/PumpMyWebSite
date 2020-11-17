@@ -15,16 +15,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-// Users
-Route::group(['middleware' => 'auth:sanctum'], function () {
-    Route::match(['get', 'patch', 'delete'], '/users/{id?}', [UserController::class, 'match']);
-    Route::post('/users', [UserController::class, 'createUser']);
-});
-
 // User
 Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::match(['get', 'patch', 'delete'], '/user/{id?}', [UserController::class, 'match']);
     Route::get('/user/{id}/discord', [UserController::class, 'getDiscord']);
-    Route::get('/user/{id?}', [UserController::class, 'getUser']);
+    Route::get('/users/{ids?}', [UserController::class, 'getUsers']);
+    Route::post('/user', [UserController::class, 'createUser']);
 });
 
 // News

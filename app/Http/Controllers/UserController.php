@@ -16,7 +16,7 @@ class UserController extends Controller
     {
         switch ($request->method()) {
             case 'GET':
-                return $this->getUsers($request);
+                return $this->getUser($request);
             case 'PATCH':
                 return $this->patchUser($request);
             case 'DELETE':
@@ -28,14 +28,15 @@ class UserController extends Controller
 
     public function getUser(Request $request)
     {
-        if (($request->user()->tokenCan('user.getany') and isset($request->id)) or (isset($request->id) and $request->id == $request->user()->id and $request->user()->tokenCan('user.get'))) {
-            $user = User::find($request->id);
-            if (is_null($user)) {
+        $user = $request->user();
+        $user_id = $request->id;
+        if (($user->tokenCan('user.admin.get') and ! is_null($user_id)) or (!is_null($user_id) and $user_id == $user->id and $user->tokenCan('user.get'))) {
+            if (is_null(User::find($user_id))) {
                 return response(['error' => 'Not Found'], 404);
             } else {
-                return new UserResource($user);
+                return new UserResource(User::find($user_id));
             }
-        } elseif (($request->user()->tokenCan('user.get') or $request->user()->tokenCan('user.getany')) and ! isset($request->id)) {
+        } elseif (($user->tokenCan('user.get') or $user->tokenCan('user.admin.get')) and is_null($user_id)) {
             return new UserResource($request->user());
         }
 
@@ -44,18 +45,17 @@ class UserController extends Controller
 
     public function getDiscord(Request $request)
     {
-        if (! isset($request->id)) {
+        $user = $request->user();
+        $user_id = $request->id;
+        if (is_null($user_id)) {
             return response(['error' => 'Bad Request'], 400);
         }
-        if ($request->user()->tokenCan('user.discord')) {
-            if ($request->user()->id != $request->id and ! $request->user()->tokenCan('user.getany')) {
-                return response(['error' => 'Forbidden'], 403);
-            }
-            $user = User::find($request->id);
-            if (is_null($user)) {
+        if (($user->tokenCan('user.get.discord') and $user_id == $user->id) or $user->tokenCan('user.admin.get.discord')) {
+            $requested_user = User::find($user_id);
+            if (is_null($requested_user)) {
                 return response(['error' => 'Not Found'], 404);
             } else {
-                return new UserDiscordResource($user);
+                return new UserDiscordResource($requested_user);
             }
         }
 
@@ -64,9 +64,9 @@ class UserController extends Controller
 
     public function getUsers(Request $request)
     {
-        if ($request->user()->tokenCan('users.get')) {
-            if (isset($request->id)) {
-                $ids = explode(':', trim(htmlspecialchars($request->id)));
+        if ($request->user()->tokenCan('user.admin.get')) {
+            if (isset($request->ids)) {
+                $ids = explode(':', trim(htmlspecialchars($request->ids)));
                 $users = User::find($ids);
             } else {
                 $users = User::all();
@@ -80,7 +80,7 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
-        if ($request->user()->tokenCan('users.create')) {
+        if ($request->user()->tokenCan('user.admin.create')) {
             $input = $request->all();
             $validator = Validator::make($input, [
                 'name' => ['required', 'string', 'max:255'],
@@ -110,8 +110,10 @@ class UserController extends Controller
 
     public function patchUser(Request $request)
     {
-        if ($request->user()->tokenCan('users.update')) {
-            if (isset($request->id) and ! is_null(User::find($request->id)) and count($request->all()) > 0) {
+        $user = $request->user();
+        $user_id = $request->id;
+        if ($user->tokenCan('user.admin.update')) {
+            if (isset($user_id) and ! is_null(User::find($user_id)) and count($request->all()) > 1) {
                 $input = $request->all();
                 $validator = Validator::make($input, [
                     'name' => ['nullable', 'string', 'max:255'],
@@ -120,30 +122,30 @@ class UserController extends Controller
                     'discord' => ['numeric', 'unique:users', 'nullable'],
                     'discord_nickname' => ['string', 'unique:users', 'nullable'],
                 ]);
-                $user = User::find($request->id);
+                $requested_user = User::find($user_id);
                 if ($validator->fails()) {
                     return $validator->errors();
                 }
                 if (isset($input['name'])) {
-                    $user->name = $input['name'];
+                    $requested_user->name = $input['name'];
                 }
                 if (isset($input['email'])) {
-                    $user->email = $input['email'];
+                    $requested_user->email = $input['email'];
                 }
                 if (isset($input['password'])) {
-                    $user->password = Hash::make($input['password']);
+                    $requested_user->password = Hash::make($input['password']);
                 }
                 if (isset($input['discord'])) {
-                    $user->discord = $input['discord'];
+                    $requested_user->discord = $input['discord'];
                 }
                 if (isset($input['discord_nickname'])) {
-                    $user->discord_nickname = $input['discord_nickname'];
+                    $requested_user->discord_nickname = $input['discord_nickname'];
                 }
-                $user->save();
+                $requested_user->save();
 
-                return new UserResource($user);
+                return new UserResource($requested_user);
             } else {
-                return response(['error' => 'Bad Request', 'reasons' => 'User not found'], 400);
+                return response(['error' => 'Bad Request'], 400);
             }
         }
 
@@ -152,7 +154,7 @@ class UserController extends Controller
 
     public function deleteUser(Request $request)
     {
-        if ($request->user()->tokenCan('users.delete')) {
+        if ($request->user()->tokenCan('user.admin.delete')) {
             $user = User::find($request->id);
             if (is_null($user)) {
                 return response(['error' => 'Bad Request'], 400);

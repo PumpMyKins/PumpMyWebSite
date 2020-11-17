@@ -20,14 +20,4 @@ class User extends JsonResource
             'email' => $this->email,
         ];
     }
-
-    /**
-     * Transform the discord resource to array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array
-     */
-    public function toArrayDiscord($request)
-    {
-    }
 }
