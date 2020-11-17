@@ -12,8 +12,6 @@ use Laravel\Fortify\Rules\Password;
 
 class UserController extends Controller
 {
-    use \App\Actions\Fortify\PasswordValidationRules;
-
     public function match(Request $request)
     {
         switch ($request->method()) {
@@ -75,7 +73,7 @@ class UserController extends Controller
         return response(['error' => "Forbidden"], 403);
     }
 
-    public function create(Request $request)
+    public function createUser(Request $request)
     {
         if ($request->user()->tokenCan('users.create')) {
             $input = $request->all();
