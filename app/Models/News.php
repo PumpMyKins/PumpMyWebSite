@@ -15,6 +15,6 @@ class News extends Model
      * @var array
      */
     protected $fillable = [
-        'title', 'content', 'discordable','published', 'user_id',
+        'title', 'content', 'discordable', 'published', 'user_id',
     ];
 }

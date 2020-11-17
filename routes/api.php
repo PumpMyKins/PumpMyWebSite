@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\NewsController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,7 +28,7 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
 });
 
 // News
-Route::group(['middleware' => 'auth:sanctum'], function() {
-	Route::match(['get', 'patch', 'delete'], '/news/{id?}', [NewsController::class, 'match']);
-	Route::post('/news', [NewsController::class, 'createNews']);
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::match(['get', 'patch', 'delete'], '/news/{id?}', [NewsController::class, 'match']);
+    Route::post('/news', [NewsController::class, 'createNews']);
 });

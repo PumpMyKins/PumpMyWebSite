@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\News;
-use Illuminate\Support\Facades\Validator;
 use App\Http\Resources\News as NewsResource;
+use App\Models\News;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class NewsController extends Controller
 {
-
     public function match(Request $request)
     {
         switch ($request->method()) {
@@ -20,41 +19,45 @@ class NewsController extends Controller
             case 'DELETE':
                 return $this->deleteNews($request);
             default:
-                return response(['error' => "Bad Request"], 400);
+                return response(['error' => 'Bad Request'], 400);
         }
     }
 
-    public function getNews(Request $request) {
+    public function getNews(Request $request)
+    {
         if ($request->user()->tokenCan('news.getany')) {
-            if (isset($request->id) and !strpos($request->id, ":") and ! is_null(News::find($request->id))) {
+            if (isset($request->id) and ! strpos($request->id, ':') and ! is_null(News::find($request->id))) {
                 return new NewsResource(News::find($request->id));
-            } else if (isset($request->id) and strpos($request->id, ':')) {
+            } elseif (isset($request->id) and strpos($request->id, ':')) {
                 $ids = explode(':', trim(htmlspecialchars($request->id)));
                 $news = News::find($ids);
+
                 return NewsResource::collection($news);
-            } elseif (!isset($request->id)) {
+            } elseif (! isset($request->id)) {
                 return NewsResource::collection(News::all());
             } else {
-                return response(['error' => "Bad Request"], 400);
+                return response(['error' => 'Bad Request'], 400);
             }
-        } else if ($request->user()->tokenCan('news.get')) {
+        } elseif ($request->user()->tokenCan('news.get')) {
             if (isset($request->id)) {
                 $news = News::find($request->id);
-                if (is_null($news) or !$news->published) {
-                    return response(['error' => "Not found"], 404);
+                if (is_null($news) or ! $news->published) {
+                    return response(['error' => 'Not found'], 404);
                 } else {
                     return new NewsResource($news);
                 }
             } else {
-                return response(['error' => "Bad request"], 400);
+                return response(['error' => 'Bad request'], 400);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
-    public function patchNews(Request $request) {
+    public function patchNews(Request $request)
+    {
         if ($request->user()->tokenCan('news.update')) {
-            if (isset($request->id) and !is_null(News::find($request->id))) {
+            if (isset($request->id) and ! is_null(News::find($request->id))) {
                 $input = $request->all();
                 $validator = Validator::make($input, [
                     'title' => ['string', 'max:255', 'unique:news'],
@@ -63,40 +66,46 @@ class NewsController extends Controller
                     'published' => ['boolean'],
                 ]);
                 if ($validator->fails()) {
-                    return response(['error' => "Bad Request", 'details' => $validator->errors()], 400);
+                    return response(['error' => 'Bad Request', 'details' => $validator->errors()], 400);
                 } else {
                     $news = News::find($request->id);
                     foreach ($input as $key => $value) {
                         $news->$key = $value;
                     }
                     $news->save();
+
                     return new NewsResource($news);
                 }
             } else {
-                return response(['error' => "Bad request"], 400);
+                return response(['error' => 'Bad request'], 400);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
-    public function deleteNews(Request $request) {
+    public function deleteNews(Request $request)
+    {
         if ($request->user()->tokenCan('news.delete')) {
             if (isset($request->id)) {
                 $news = News::find($request->id);
                 if (is_null($news)) {
-                    return response(['error' => "Not found"], 404);
+                    return response(['error' => 'Not found'], 404);
                 } else {
                     $news->delete();
-                    return response(['success' => "OK"], 200);
+
+                    return response(['success' => 'OK'], 200);
                 }
             } else {
-                return response(['error' => "Bad request"], 400);
+                return response(['error' => 'Bad request'], 400);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
-    public function createNews(Request $request) {
+    public function createNews(Request $request)
+    {
         if ($request->user()->tokenCan('news.create')) {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -106,7 +115,7 @@ class NewsController extends Controller
                 'published' => ['required', 'boolean'],
             ]);
             if ($validator->fails()) {
-                return response(['error' => "Bad Request", 'details' => $validator->errors()], 400);
+                return response(['error' => 'Bad Request', 'details' => $validator->errors()], 400);
             } else {
                 $news = News::create([
                     'title' => $input['title'],
@@ -115,10 +124,12 @@ class NewsController extends Controller
                     'published' => $input['published'],
                     'user_id' => $request->user()->id,
                 ]);
+
                 return new NewsResource($news);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
     /**

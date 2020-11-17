@@ -25,6 +25,7 @@ class PMK_Permissions
         }
 
         ksort($permissions);
+
         return $permissions;
     }
 

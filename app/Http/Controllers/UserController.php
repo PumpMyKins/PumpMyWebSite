@@ -22,40 +22,44 @@ class UserController extends Controller
             case 'DELETE':
                 return $this->deleteUser($request);
             default:
-                return response(['error' => "Bad Request"], 400);
+                return response(['error' => 'Bad Request'], 400);
         }
     }
 
-    public function getUser(Request $request) {
-    	if (($request->user()->tokenCan('user.getany') and isset($request->id)) or (isset($request->id) and $request->id == $request->user()->id and $request->user()->tokenCan('user.get'))) {
+    public function getUser(Request $request)
+    {
+        if (($request->user()->tokenCan('user.getany') and isset($request->id)) or (isset($request->id) and $request->id == $request->user()->id and $request->user()->tokenCan('user.get'))) {
             $user = User::find($request->id);
             if (is_null($user)) {
-                return response(['error' => "Not Found"], 404);
+                return response(['error' => 'Not Found'], 404);
             } else {
                 return new UserResource($user);
             }
-        } else if (($request->user()->tokenCan('user.get') or $request->user()->tokenCan('user.getany')) and !isset($request->id)) {
+        } elseif (($request->user()->tokenCan('user.get') or $request->user()->tokenCan('user.getany')) and ! isset($request->id)) {
             return new UserResource($request->user());
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
-    public function getDiscord(Request $request) {
-        if (!isset($request->id)) {
-            return response(['error' => "Bad Request"], 400);
+    public function getDiscord(Request $request)
+    {
+        if (! isset($request->id)) {
+            return response(['error' => 'Bad Request'], 400);
         }
         if ($request->user()->tokenCan('user.discord')) {
-            if ($request->user()->id != $request->id and !$request->user()->tokenCan('user.getany')) {
-                return response(['error' => "Forbidden"], 403);
+            if ($request->user()->id != $request->id and ! $request->user()->tokenCan('user.getany')) {
+                return response(['error' => 'Forbidden'], 403);
             }
             $user = User::find($request->id);
             if (is_null($user)) {
-                return response(['error' => "Not Found"], 404);
+                return response(['error' => 'Not Found'], 404);
             } else {
                 return new UserDiscordResource($user);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
     public function getUsers(Request $request)
@@ -70,7 +74,8 @@ class UserController extends Controller
 
             return UserResource::collection($users);
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
     public function createUser(Request $request)
@@ -99,7 +104,8 @@ class UserController extends Controller
                 return new UserResource($user);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
     public function patchUser(Request $request)
@@ -137,10 +143,11 @@ class UserController extends Controller
 
                 return new UserResource($user);
             } else {
-                return response(['error' => "Bad Request", 'reasons' => "User not found"], 400);
+                return response(['error' => 'Bad Request', 'reasons' => 'User not found'], 400);
             }
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 
     public function deleteUser(Request $request)
@@ -148,11 +155,13 @@ class UserController extends Controller
         if ($request->user()->tokenCan('users.delete')) {
             $user = User::find($request->id);
             if (is_null($user)) {
-                return response(['error' => "Bad Request"], 400);
+                return response(['error' => 'Bad Request'], 400);
             }
             $user->delete();
-            return response(['success' => "OK"], 200);
+
+            return response(['success' => 'OK'], 200);
         }
-        return response(['error' => "Forbidden"], 403);
+
+        return response(['error' => 'Forbidden'], 403);
     }
 }
