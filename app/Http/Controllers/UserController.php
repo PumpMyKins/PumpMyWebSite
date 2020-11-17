@@ -23,35 +23,35 @@ class UserController extends Controller
             case 'DELETE':
                 return $this->deleteUser($request);
             default:
-                return response('error', 400);
+                return response(['error' => "Bad Request"], 400);
         }
     }
 
     public function getUser(Request $request) {
-    	if ($request->user()->tokenCan('user.getany') and isset($request->id)) {
+    	if (($request->user()->tokenCan('user.getany') and isset($request->id)) or (isset($request->id) and $request->id == $request->user()->id and $request->user()->tokenCan('user.get'))) {
             $user = User::find($request->id);
             if (is_null($user)) {
-                return json_encode("404 Not Found");
+                return response(['error' => "Not Found"], 404);
             } else {
                 return new UserResource($user);
             }
         } else if (($request->user()->tokenCan('user.get') or $request->user()->tokenCan('user.getany')) and !isset($request->id)) {
             return new UserResource($request->user());
         }
-        return json_encode("403 Forbidden");
+        return response(['error' => "Forbidden"], 403);
     }
 
     public function getDiscord(Request $request) {
         if (!isset($request->id)) {
-            return json_encode("400 Bad Request");
+            return response(['error' => "Bad Request"], 400);
         }
         if ($request->user()->tokenCan('user.discord')) {
             if ($request->user()->id != $request->id and !$request->user()->tokenCan('user.getany')) {
-                return json_encode("403 Forbidden");
+                return response(['error' => "Forbidden"], 403);
             }
             $user = User::find($request->id);
             if (is_null($user)) {
-                return json_encode("404 Not Found");
+                return response(['error' => "Not Found"], 404);
             } else {
                 return new UserDiscordResource($user);
             }
@@ -69,7 +69,7 @@ class UserController extends Controller
             }
             return UserResource::collection($users);
         }
-        return json_encode("403 Forbidden");
+        return response(['error' => "Forbidden"], 403);
     }
 
     public function create(Request $request) {
@@ -84,7 +84,7 @@ class UserController extends Controller
             ]);
 
             if ($validator->fails()) {
-                return $validator->errors();
+                return response($validator->errors(), 400);
             } else {
                 $user = User::create([
                     'name' => $input['name'],
@@ -96,7 +96,7 @@ class UserController extends Controller
                 return new UserResource($user);
             }
         }
-        return json_encode("403 Forbidden");
+        return response(['error' => "Forbidden"], 403);
     }
 
     public function patchUser(Request $request) {
@@ -132,21 +132,21 @@ class UserController extends Controller
                 $user->save();
                 return new UserResource($user);
             } else {
-                return json_encode("400 Bad Request");
+                return response(['error' => "Bad Request", 'reasons' => "User not found"], 400);
             }
         }
-        return json_encode("403 Forbidden");
+        return response(['error' => "Forbidden"], 403);
     }
 
     public function deleteUser(Request $request) {
         if ($request->user()->tokenCan('users.delete')) {
             $user = User::find($request->id);
             if (is_null($user)) {
-                return json_encode("400 Bad Request");
+                return response(['error' => "Bad Request"], 400);
             }
             $user->delete();
-            return json_encode("200 OK");
+            return response(['success' => "OK"], 200);
         }
-        return json_encode("403 Forbidden");
+        return response(['error' => "Forbidden"], 403);
     }
 }
