@@ -24,6 +24,7 @@ class PMK_Permissions
             }
         }
 
+        ksort($permissions);
         return $permissions;
     }
 
@@ -85,6 +86,7 @@ class PMK_Permissions
             case 'Administration':
                 return [
                     'news.get',
+                    'news.getany',
                     'news.create',
                     'news.update',
                     'news.delete',

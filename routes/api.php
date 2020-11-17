@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
-// Controllers
+use App\Http\Controllers\NewsController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,15 +18,17 @@ use Illuminate\Support\Facades\Route;
 // Users
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::match(['get', 'patch', 'delete'], '/users/{id?}', [UserController::class, 'match']);
-
-    //Route::get('/users/{ids?}', [UserController::class, 'getUsers']);
-    Route::post('/users', [UserController::class, 'create']);
-    //Route::patch('/users/{$id}', [UserController::class, 'patch']);
-    //Route::delete('/users/{$id}', [UserController::class, 'delete']);
+    Route::post('/users', [UserController::class, 'createUser']);
 });
 
 // User
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('/user/{id}/discord', [UserController::class, 'getDiscord']);
     Route::get('/user/{id?}', [UserController::class, 'getUser']);
+});
+
+// News
+Route::group(['middleware' => 'auth:sanctum'], function() {
+	Route::match(['get', 'patch', 'delete'], '/news/{id?}', [NewsController::class, 'match']);
+	Route::post('/news', [NewsController::class, 'createNews']);
 });
