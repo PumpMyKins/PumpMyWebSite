@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\PMK_Permissions;
 use App\Actions\Jetstream\AddTeamMember;
 use App\Actions\Jetstream\CreateTeam;
 use App\Actions\Jetstream\DeleteTeam;
 use App\Actions\Jetstream\DeleteUser;
 use App\Actions\Jetstream\UpdateTeamName;
+use App\PMK_Permissions;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Jetstream\Jetstream;
 
@@ -49,6 +49,6 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::defaultApiTokenPermissions(['read']);
 
         // Register all the permission
-        Jetstream::permissions(PMK_Permissions::apiPermissions("Administration"));
+        Jetstream::permissions(PMK_Permissions::apiPermissions('Administration'));
     }
 }

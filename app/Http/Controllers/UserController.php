@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Hash;
-use Laravel\Fortify\Rules\Password;
-use Illuminate\Support\Facades\Validator;
-use App\Models\User;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\UserDiscord as UserDiscordResource;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Laravel\Fortify\Rules\Password;
 
 class UserController extends Controller
 {
     use \App\Actions\Fortify\PasswordValidationRules;
 
-    public function match(Request $request) {
+    public function match(Request $request)
+    {
         switch ($request->method()) {
             case 'GET':
                 return $this->getUsers($request);
@@ -56,23 +57,27 @@ class UserController extends Controller
                 return new UserDiscordResource($user);
             }
         }
-        return json_encode("403 Forbidden");
+
+        return json_encode('403 Forbidden');
     }
 
-    public function getUsers(Request $request) {
+    public function getUsers(Request $request)
+    {
         if ($request->user()->tokenCan('users.get')) {
             if (isset($request->id)) {
-                $ids = explode(":", trim(htmlspecialchars($request->id)));
+                $ids = explode(':', trim(htmlspecialchars($request->id)));
                 $users = User::find($ids);
             } else {
                 $users = User::all();
             }
+
             return UserResource::collection($users);
         }
         return response(['error' => "Forbidden"], 403);
     }
 
-    public function create(Request $request) {
+    public function create(Request $request)
+    {
         if ($request->user()->tokenCan('users.create')) {
             $input = $request->all();
             $validator = Validator::make($input, [
@@ -93,15 +98,17 @@ class UserController extends Controller
                     'discord' => isset($input['discord']) ? $input['discord'] : null,
                     'discord_nickname' => isset($input['discord_nickname']) ? $input['discord_nickname'] : null,
                 ]);
+
                 return new UserResource($user);
             }
         }
         return response(['error' => "Forbidden"], 403);
     }
 
-    public function patchUser(Request $request) {
+    public function patchUser(Request $request)
+    {
         if ($request->user()->tokenCan('users.update')) {
-            if (isset($request->id) and !is_null(User::find($request->id)) and count($request->all()) > 0) {
+            if (isset($request->id) and ! is_null(User::find($request->id)) and count($request->all()) > 0) {
                 $input = $request->all();
                 $validator = Validator::make($input, [
                     'name' => ['nullable', 'string', 'max:255'],
@@ -130,6 +137,7 @@ class UserController extends Controller
                     $user->discord_nickname = $input['discord_nickname'];
                 }
                 $user->save();
+
                 return new UserResource($user);
             } else {
                 return response(['error' => "Bad Request", 'reasons' => "User not found"], 400);
@@ -138,7 +146,8 @@ class UserController extends Controller
         return response(['error' => "Forbidden"], 403);
     }
 
-    public function deleteUser(Request $request) {
+    public function deleteUser(Request $request)
+    {
         if ($request->user()->tokenCan('users.delete')) {
             $user = User::find($request->id);
             if (is_null($user)) {
