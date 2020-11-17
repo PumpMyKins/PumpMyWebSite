@@ -57,8 +57,7 @@ class UserController extends Controller
                 return new UserDiscordResource($user);
             }
         }
-
-        return json_encode('403 Forbidden');
+        return response(['error' => "Forbidden"], 403);
     }
 
     public function getUsers(Request $request)
