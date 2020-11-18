@@ -18,7 +18,7 @@
             </div>
 
             <!-- Token Permissions -->
-            @if (Laravel\Jetstream\Jetstream::hasPermissions())
+            @if (Laravel\Jetstream\Jetstream::hasPermissions() and count($this->user->getRoleNames()) > 0)
                 <div class="col-span-6">
                     <x-jet-label for="permissions" value="{{ __('Permissions') }}" />
 

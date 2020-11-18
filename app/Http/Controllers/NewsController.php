@@ -25,29 +25,30 @@ class NewsController extends Controller
 
     public function getNews(Request $request)
     {
-        if ($request->user()->tokenCan('news.getany')) {
-            if (isset($request->id) and ! strpos($request->id, ':') and ! is_null(News::find($request->id))) {
-                return new NewsResource(News::find($request->id));
-            } elseif (isset($request->id) and strpos($request->id, ':')) {
-                $ids = explode(':', trim(htmlspecialchars($request->id)));
-                $news = News::find($ids);
-
-                return NewsResource::collection($news);
+        $user = $request->user();
+        $news_id = $request->id;
+        if ($user->tokenCan('news.get') or $user->tokenCan('news.admin.get')) {
+            if (!is_null($news_id) and strpos($news_id, ':') === false) {
+                $news_builder = News::where('id', $news_id);
+                if (! $user->tokenCan('news.admin.get')) {
+                    $news_builder->published()->orWhere('user_id', $user->id)->where('id', $news_id);
+                }
+                return new NewsResource($news_builder->get());
+            } elseif (! is_null($news_id) and strpos($news_id, ':') >= 0) {
+                $ids = explode(':', trim(htmlspecialchars($news_id)));
+                $news_builder = News::whereIn('id', $ids);
+                if (! $user->tokenCan('news.admin.get')) {
+                    $news_builder->published()->orWhere('user_id', $user->id)->whereIn('id', $ids);
+                }
+                return NewsResource::collection($news_builder->get());
             } elseif (! isset($request->id)) {
-                return NewsResource::collection(News::all());
-            } else {
-                return response(['error' => 'Bad Request'], 400);
-            }
-        } elseif ($request->user()->tokenCan('news.get')) {
-            if (isset($request->id)) {
-                $news = News::find($request->id);
-                if (is_null($news) or ! $news->published) {
-                    return response(['error' => 'Not found'], 404);
+                if ($user->tokenCan('news.admin.get')) {
+                    return NewsResource::collection(News::withoutGlobalScopes()->get());
                 } else {
-                    return new NewsResource($news);
+                    return NewsResource::collection(News::all());
                 }
             } else {
-                return response(['error' => 'Bad request'], 400);
+                return response(['error' => 'Bad Request'], 400);
             }
         }
 
@@ -56,8 +57,10 @@ class NewsController extends Controller
 
     public function patchNews(Request $request)
     {
-        if ($request->user()->tokenCan('news.update')) {
-            if (isset($request->id) and ! is_null(News::find($request->id))) {
+        $user = $request->user();
+        $news_id = $request->id;
+        if ($user->tokenCan('news.update') and $user->hasNews($news_id) or $user->tokenCan('news.admin.update')) {
+            if (! is_null($news_id) and ! is_null(News::find($news_id))) {
                 $input = $request->all();
                 $validator = Validator::make($input, [
                     'title' => ['string', 'max:255', 'unique:news'],
@@ -86,8 +89,10 @@ class NewsController extends Controller
 
     public function deleteNews(Request $request)
     {
-        if ($request->user()->tokenCan('news.delete')) {
-            if (isset($request->id)) {
+        $user = $request->user();
+        $news_id = $request->id;
+        if (($user->tokenCan('news.delete') and $user->hasNews($news_id)) or $user->tokenCan('news.admin.delete')) {
+            if (! is_null($news_id)) {
                 $news = News::find($request->id);
                 if (is_null($news)) {
                     return response(['error' => 'Not found'], 404);

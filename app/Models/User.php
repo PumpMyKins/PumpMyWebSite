@@ -57,4 +57,20 @@ class User extends Authenticatable
     protected $appends = [
         'profile_photo_url',
     ];
+
+    public function news()
+    {
+        return $this->hasMany('App\Models\News');
+    }
+
+    public function hasNews($id)
+    {
+        $news = $this->news();
+        foreach ($news as $new) {
+            if ($new->id == $id) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
