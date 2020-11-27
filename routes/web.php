@@ -20,7 +20,7 @@ Route::get('login/discord/callback', [SocialiteLoginController::class, 'handlePr
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('vitrine');
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
     return view('dashboard');

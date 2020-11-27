@@ -18,21 +18,43 @@
         <!-- Scripts -->
         <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.7.3/dist/alpine.js" defer></script>
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100">
-            @livewire('navigation-dropdown')
-
+    <body class="font-sans antialiased bg-gray-100">
+        <div class="md:flex flex-col md:flex-row md:min-h-screen w-full">
+            <x-nav-main>
+                <x-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('profile.show') }}" :active="request()->routeIs('profile.show')">
+                    {{ __('Profile') }}
+                </x-nav-link>
+                <x-nav-link href="{{ route('api-tokens.index') }}" :active="request()->routeIs('api-tokens.index')">
+                    {{ __('API Tokens') }}
+                </x-nav-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+                    <x-nav-link href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                        {{ __('Logout') }}
+                    </x-nav-link>
+                </form>
+            </x-nav-main>
+        
             <!-- Page Heading -->
-            <header class="bg-white shadow">
-                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                    {{ $header }}
-                </div>
-            </header>
+            <div class="flex flex-col w-full">
+                <div class="flex-row">
+                    <header class="flex-row bg-white">
+                        <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 text-center">
+                            {{ $header }}
+                        </div>
+                    </header>
 
-            <!-- Page Content -->
-            <main>
-                {{ $slot }}
-            </main>
+                    <!-- Page Content -->
+                    <main class="flex-row">
+                        {{ $slot }}
+                    </main>
+                </div>
+            </div>
         </div>
 
         @stack('modals')
