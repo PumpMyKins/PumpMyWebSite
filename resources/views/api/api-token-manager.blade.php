@@ -22,7 +22,7 @@
                 <div class="col-span-6">
                     <x-jet-label for="permissions" value="{{ __('Permissions') }}" />
 
-                    @foreach (App\PMK_Permissions::apiPermissionByGroups($this->user->getRoleNames()[0]) as $groupName => $permissions)
+                    @foreach (apipermissions($this->user->getRoleNames()[0]) as $groupName => $permissions)
                         <div class="mt-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                             <h3>{{ ucfirst($groupName) }}</h3><br />
                             @foreach ($permissions as $permission)
