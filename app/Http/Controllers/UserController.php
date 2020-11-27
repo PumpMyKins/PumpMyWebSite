@@ -30,7 +30,7 @@ class UserController extends Controller
     {
         $user = $request->user();
         $user_id = $request->id;
-        if (($user->tokenCan('user.admin.get') and ! is_null($user_id)) or (!is_null($user_id) and $user_id == $user->id and $user->tokenCan('user.get'))) {
+        if (($user->tokenCan('user.admin.get') and ! is_null($user_id)) or (! is_null($user_id) and $user_id == $user->id and $user->tokenCan('user.get'))) {
             if (is_null(User::find($user_id))) {
                 return response(['error' => 'Not Found'], 404);
             } else {
