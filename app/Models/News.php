@@ -20,18 +20,18 @@ class News extends Model
 
     public function user()
     {
-    	return $this->belongsTo('App\Models\User');
+        return $this->belongsTo('App\Models\User');
     }
 
     public function scopePublished($query)
     {
-    	return $query->where('published', 1);
+        return $query->where('published', 1);
     }
 
     public static function booted()
     {
-    	static::addGlobalScope('published', function (Builder $builder) {
-    		$builder->where('published', 1);
-    	});
+        static::addGlobalScope('published', function (Builder $builder) {
+            $builder->where('published', 1);
+        });
     }
 }
