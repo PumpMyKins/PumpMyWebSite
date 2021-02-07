@@ -28,11 +28,12 @@ class NewsController extends Controller
         $user = $request->user();
         $news_id = $request->id;
         if ($user->tokenCan('news.get') or $user->tokenCan('news.admin.get')) {
-            if (!is_null($news_id) and strpos($news_id, ':') === false) {
+            if (! is_null($news_id) and strpos($news_id, ':') === false) {
                 $news_builder = News::where('id', $news_id);
                 if (! $user->tokenCan('news.admin.get')) {
                     $news_builder->published()->orWhere('user_id', $user->id)->where('id', $news_id);
                 }
+
                 return new NewsResource($news_builder->get());
             } elseif (! is_null($news_id) and strpos($news_id, ':') >= 0) {
                 $ids = explode(':', trim(htmlspecialchars($news_id)));
@@ -40,6 +41,7 @@ class NewsController extends Controller
                 if (! $user->tokenCan('news.admin.get')) {
                     $news_builder->published()->orWhere('user_id', $user->id)->whereIn('id', $ids);
                 }
+
                 return NewsResource::collection($news_builder->get());
             } elseif (! isset($request->id)) {
                 if ($user->tokenCan('news.admin.get')) {

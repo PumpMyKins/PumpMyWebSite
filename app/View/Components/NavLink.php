@@ -7,9 +7,9 @@ use Illuminate\View\Component;
 class NavLink extends Component
 {
     /**
-     * Active element in Sidebar
+     * Active element in Sidebar.
      *
-     * @var boolean
+     * @var bool
      */
     public $active;
 

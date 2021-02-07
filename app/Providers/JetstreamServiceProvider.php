@@ -48,6 +48,6 @@ class JetstreamServiceProvider extends ServiceProvider
         Jetstream::defaultApiTokenPermissions(['read']);
 
         // Register all the permission
-        Jetstream::permissions(apipermissions("Administration", true));
+        Jetstream::permissions(apipermissions('Administration', true));
     }
 }
