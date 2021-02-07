@@ -9,6 +9,7 @@ use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Traits\HasRoles;
+use JoelButcher\Socialstream\HasConnectedAccounts;
 
 class User extends Authenticatable
 {
@@ -18,6 +19,7 @@ class User extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
     use HasRoles;
+    use HasConnectedAccounts;
 
     /**
      * The attributes that are mass assignable.
@@ -71,6 +73,7 @@ class User extends Authenticatable
                 return true;
             }
         }
+
         return false;
     }
 }

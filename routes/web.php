@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\SocialiteLoginController;
 // App Controllers
 use Illuminate\Support\Facades\Route;
 
@@ -14,9 +13,6 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('login/discord', [SocialiteLoginController::class, 'redirectToProvider']);
-Route::get('login/discord/callback', [SocialiteLoginController::class, 'handleProviderCallback']);
 
 Route::get('/', function () {
     return view('welcome');
